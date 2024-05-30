@@ -10,7 +10,7 @@ require("dotenv").config();
 
 const PORT = 3000;
 server.use(cors());
-server.use(bodyParser.json());
+server.use(bodyParser.json({ express: false }));
 server.use((req, res, next) => {
   logEntry(`${req.method}\t${req.headers.origin}\t${req.url}`);
   next();
