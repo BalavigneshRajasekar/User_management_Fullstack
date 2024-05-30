@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const Router = require("./Routes/routes");
 const cors = require("cors");
 const logEntry = require("./Logger");
+require("dotenv").config();
 
 const PORT = 3000;
 server.use(cors());
@@ -17,9 +18,7 @@ server.use((req, res, next) => {
 server.use("/Users", Router);
 
 mongoose
-  .connect(
-    "mongodb+srv://vigneshvicky:MongoDB.1234@cluster0.lndirta.mongodb.net/user_data"
-  )
+  .connect(process.env.MONGODB)
   .then(() => {
     console.log("DB connected");
 
