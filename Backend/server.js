@@ -13,6 +13,7 @@ server.use(cors());
 server.use(bodyParser.json());
 server.use((req, res, next) => {
   logEntry(`${req.method}\t${req.headers.origin}\t${req.url}`);
+
   next();
 });
 server.use("/Users", Router);

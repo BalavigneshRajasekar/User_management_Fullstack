@@ -29,7 +29,9 @@ function UserList() {
   //Initial Fetch API data and render
   async function fetchUser() {
     try {
-      const response = await axios.get("http://localhost:3000/Users/getUser");
+      const response = await axios.get(
+        "https://usermanagement-ktfl.onrender.com/Users/getUser"
+      );
       setUsers(response.data);
     } catch (error) {
       showSnackBar("not fetched", "error");
@@ -54,7 +56,9 @@ function UserList() {
   const onDelete = async (user) => {
     try {
       console.log(user);
-      await axios.delete(`http://localhost:3000/Users/deleteUser/${user._id}`);
+      await axios.delete(
+        `https://usermanagement-ktfl.onrender.com/Users/deleteUser/${user._id}`
+      );
       fetchUser();
 
       showSnackBar("user Deleted", "success");
@@ -68,7 +72,7 @@ function UserList() {
     console.log(user._id);
     try {
       await axios.put(
-        `http://localhost:3000/Users/updateUser/${user._id}`,
+        `https://usermanagement-ktfl.onrender.com/Users/updateUser/${user._id}`,
         user
       );
       console.log(user);
@@ -95,7 +99,7 @@ function UserList() {
     } else {
       try {
         const response = await axios.post(
-          `http://localhost:3000/Users/addUser/`,
+          `https://usermanagement-ktfl.onrender.com/Users/addUser/`,
           user
         );
 
