@@ -16,6 +16,7 @@ server.use((req, res, next) => {
 
   next();
 });
+server.use("/Register", Router);
 server.use("/Users", Router);
 
 mongoose

@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
 const express = require("express");
 const User = require("../models/user");
-
+const Register = require("../models/registeredUser");
 const router = express.Router();
+const bcrypt = require("bcrypt");
 
 router.post("/addUser", async (req, res) => {
   try {
@@ -56,4 +57,36 @@ router.delete("/deleteUser/:id", async (req, res) => {
   }
 });
 
+router.post("/Users", async (req, res) => {
+  const { name, email, password } = req.body;
+  try {
+    const existingUser = await Register.findOne({ email });
+    if (existingUser) {
+      res.status(400).send("User already exists");
+    }
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const addedUser = new Register({ name, email, password: hashedPassword });
+    await addedUser.save();
+    res.status(200).send("User Created successfully");
+  } catch (err) {
+    res.status(400).send("error while creating user");
+  }
+});
+
+router.post("/Login", async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const user = await Register.findOne({ email });
+    if (!user) {
+      return res.status(400).send("User not found");
+    }
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(400).send("Invalid Password");
+    }
+    res.status(200).send("Logged in successfully");
+  } catch (err) {
+    res.status(400).send("error while logging in");
+  }
+});
 module.exports = router;
